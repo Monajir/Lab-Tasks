@@ -120,15 +120,30 @@ void delete_node(int element){
     }
 
     node* curr = list;
-    while(curr->value != element)
+
+    while(curr->value != element && curr != NULL)
     {
         curr = curr->next;
     }
     
-    curr -> prev -> next = curr -> next;
-    curr -> next -> prev = curr -> prev;
-    
+    if (curr == NULL) {
+        printf("Element not found!\n");
+        return;
+    }
+    if (curr == list) {
+        list = curr->next;
+        if (list != NULL) {
+        list->prev = NULL;
+        }
+    } else {
+        curr->prev->next = curr->next;
+        if (curr->next != NULL) {
+        curr->next->prev = curr->prev;
+        }
+    }
+ 
     free(curr);
+
 }
 
 void delete_front()
@@ -195,34 +210,35 @@ int main(){
     }
     print_list();
 
-    // int k = 3, new_element = 13;
-    // insert_after(new_element, k);
-    // printf("%d has been inserted after %d.\n", new_element, k);
-    // print_list();
+    int k = 3, new_element = 13;
+    insert_after(new_element, k);
+    printf("%d has been inserted after %d.\n", new_element, k);
+    print_list();
 
-    // if(find(k))
-    // {
-    //     printf("%d is present!\n", k);
-    // }
-    // else
-    // {
-    //     printf("%d is NOT present!\n", k);
-    // }
+    if(find(k))
+    {
+        printf("%d is present!\n", k);
+    }
+    else
+    {
+        printf("%d is NOT present!\n", k);
+    }
 
-    // k = 3;
-    // delete_node(k);
-    // printf("%d has been deleted.\n", k);
-    // print_list();
+    k = 3;
+    delete_node(k);
+    printf("%d has been deleted.\n", k);
+    print_list();
 
-    // delete_front();
-    // printf("The first element has been deleted.\n");
-    // print_list();
+    delete_front();
+    printf("The first element has been deleted.\n");
+    print_list();
 
-    // delete_back();
-    // printf("The last element has been deleted.\n");
-    // print_list();
+    delete_back();
+    printf("The last element has been deleted.\n");
+    print_list();
 
     destroy(list);
+    
     return 0;
 
 }
